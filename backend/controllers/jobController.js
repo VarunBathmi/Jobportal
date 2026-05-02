@@ -17,7 +17,7 @@ exports.createJob = async (req, res) => {
     }
 };
 
-exports.getJob = async (req, res) => {
+exports.getJobs = async (req, res) => {
 
     const {
         keyword,
