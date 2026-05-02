@@ -9,8 +9,8 @@ const {protect} = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 // Protected routes
-router.put("/profile",protect,updatetProfile);
-router.post("/resume",protect,deleteResume);
+router.put("/profile", protect, updateProfile);
+router.post("/resume", protect, deleteResume);
 
 // Publie route
 router.get("/:id",getPublicProfile);
