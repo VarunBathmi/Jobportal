@@ -40,7 +40,8 @@ const employerDashboard = () => {
   }, []);
   
   return (
-    <div>employerDashboard</div>
+    <DashboardsLayout activeMenu='employer-dashboard'>
+    </DashboardsLayout>
   )
 }
 
