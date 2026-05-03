@@ -154,9 +154,25 @@ const JobSeekerDashboard = () => {
         await axiosInstance.post(API_PATHS.JOBS.DELETE_JOB.SAVE_JOB(jobId));
         toast.success("job saved successfully!");
       }
+      fetchJobs();
+    }catch(err){
+      console.log("Error:",err);
+      toast.error("Somthing went wrong! Try again later")
     }
   };
-  const applytoJob = async (jobId) => {};
+  const applytoJob = async (jobId) => {
+    try{
+      if(jobId){
+        await axiosInstance.post(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId));
+        toast.success("Applied to job successfully")
+      }
+      fetchJobs()
+    }catch(err){
+      console.log("Error:",err);
+      const errMsg=err?.response?.data?.message
+      toast.error(errMsg || "Something went wrong! try again later");
+    }
+  };
   if (jobs.length == 0 && loading) {
     return <LoadingSpinner />;
   }
