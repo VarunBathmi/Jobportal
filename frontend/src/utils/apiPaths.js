@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const BASE_URL = 'http://localhost:8000';
 
 export const API_PATHS = {
@@ -11,6 +12,21 @@ export const API_PATHS = {
 
     DASHBOARD:{
 
+=======
+
+export const BASE_URL = "http://localhost:8000";
+
+export const API_PATHS = {
+    AUTH: {
+        REGISTER: "/api/auth/register", //Signup
+        LOGIN: "/api/auth/login", //Authenticate user & return JWT token
+        GET_PROFILE: "/api/auth/profile", //Get Logged-in user details
+        UPDATE_PROFILE: "/api/user/profile", //Update profile details
+        DELETE_RESUME: "/api/user/resume", //Delete Resume details
+    },
+
+    DASHBOARD: {
+>>>>>>> 5896463c3c152dc4cae4e8506b0a09f22bbafcf9
         OVERVIEW: `/api/analytics/overview`,
     },
 
@@ -40,4 +56,8 @@ export const API_PATHS = {
         UPLOAD_IMAGE:"/api/auth/upload-image", //upload profile picture
     },
 };
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 5896463c3c152dc4cae4e8506b0a09f22bbafcf9
