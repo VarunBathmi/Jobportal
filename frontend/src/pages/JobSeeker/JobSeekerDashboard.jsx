@@ -196,10 +196,77 @@ const JobSeekerDashboard = () => {
           filters={filters}
           handleFilterChange={handleFilterChange}
         />
+        <div className="flex gap-6 lg:gap-8">
+          {/* Desktop Sidebar Filters */}
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-6 sticky top-20">
+              <h3 className=" font-bold text-gray-900 text-xl mb-6">
+                Filter Jobs
+              </h3>
+              <FilterContent
+                toggleSection={toggleSection}
+                clearAllfilters={clearAllfilters}
+                expandedSections={expandedSections}
+                filters={filters}
+                handleFilterChange={handleFilterChange}
+              />
+            </div>
+          </div>
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            {/* Result Header */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 lg:mb-8 gap-4">
+              <div>
+                <p className="text-gray-600 text-sm lg:text-base">
+                  Showing{" "}
+                  <span className="font-bold text-gray-900 ">
+                    {jobs.length}
+                  </span>{" "}
+                  jobs
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between lg:justify-end gap-4">
+                {/* Mobile Filter Button */}
+                <button
+                  onClick={() => setShowMobileFilters(true)}
+                  className="lg:hidden flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-gray-200 font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <Filter className="w-4 h-4" />
+                </button>
+                <div className="flex items-center gap-3 lg:gap-4">
+                  <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-white">
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`p-2 rounded-lg translate-colors ${
+                        viewMode === "grid"
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      }`}
+                    >
+                      <Grid className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`p-2 rounded-lg translate-colors ${
+                        viewMode === "list"
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      }`}
+                    >
+                      <List className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Mobile Filter Overlay */}
+      <MobileFilterOverlay />
     </div>
-    {/* Mobile Filter Overlay */}
-    <MobileFilterOverlay />
   </div>;
 };
 

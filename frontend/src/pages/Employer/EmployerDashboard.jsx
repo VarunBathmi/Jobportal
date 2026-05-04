@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   Plus,
@@ -9,24 +9,23 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import moment from "moment";
-import{ useNavigate } from "react-router-dom";
-import axiosInstance from  "../../utils/axiosInstance";
-import {API_PATHS} from "../../utils/apiPaths";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 
 const employerDashboard = () => {
-
   const navigate = useNavigate();
 
-  const [dashboardData, setDashboardData] = useState(null); 
+  const [dashboardData, setDashboardData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getDashboardOverview = async () =>{
+  const getDashboardOverview = async () => {
     try {
-       setIsLoading(true);
-       const response = await axiosInstance.get(API_PATHS.DASHBOARD.OVERVIEW);
-       if (response.status ===200) {
+      setIsLoading(true);
+      const response = await axiosInstance.get(API_PATHS.DASHBOARD.OVERVIEW);
+      if (response.status === 200) {
         setDashboardData(response.data);
-       }
+      }
     } catch (error) {
       console.log("error");
     } finally {
@@ -34,15 +33,12 @@ const employerDashboard = () => {
     }
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     getDashboardOverview();
     return () => {};
   }, []);
-  
-  return (
-    <DashboardsLayout activeMenu='employer-dashboard'>
-    </DashboardsLayout>
-  )
-}
 
-export default employerDashboard
+  return <DashboardsLayout activeMenu="employer-dashboard"></DashboardsLayout>;
+};
+
+export default employerDashboard;
