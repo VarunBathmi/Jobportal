@@ -3,10 +3,12 @@ import { Search, Filter, Grid, List, X } from "lucide-react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import axiosInstance from "../../utils/axiosInstance";
 import FilterContent from "./components/FilterContent";
+import SearchHeader from "./components/SearchHeader";
 import { API_PATHS } from "../../utils/apiPaths";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
+import Navbar from "../../components/layout/Navbar";
 const JobSeekerDashboard = () => {
   const { user } = useAuth();
 
@@ -37,33 +39,37 @@ const JobSeekerDashboard = () => {
 
   //Function to fetch jobs from API
   const fetchJobs = async (filterParams = {}) => {
-    try{
-      setLoading(true)
-      setError(null)
+    try {
+      setLoading(true);
+      setError(null);
 
       //Build query parameters
-      const params =new URLSearchParams()
-      
-      if(filterParams.keyword) params.append("keyword",filterParams.keyword);
-      if(filterParams.location) params.append("location",filterParams.location);
-      if(filterParams.minSalary) params.append("minSalary",filterParams.minSalary);
-      if(filterParams.maxSalary) params.append("maxSalary",filterParams.maxSalary);
-      if(filterParams.type) params.append("type",filterParams.type);
-      if(filterParams.category) params.append("category",filterParams.category)
-      
-      const response=await axiosInstance.get(
-        `${API_PATHS.JOBS.GET_ALL_JOBS}?${params.toString()}`
+      const params = new URLSearchParams();
+
+      if (filterParams.keyword) params.append("keyword", filterParams.keyword);
+      if (filterParams.location)
+        params.append("location", filterParams.location);
+      if (filterParams.minSalary)
+        params.append("minSalary", filterParams.minSalary);
+      if (filterParams.maxSalary)
+        params.append("maxSalary", filterParams.maxSalary);
+      if (filterParams.type) params.append("type", filterParams.type);
+      if (filterParams.category)
+        params.append("category", filterParams.category);
+
+      const response = await axiosInstance.get(
+        `${API_PATHS.JOBS.GET_ALL_JOBS}?${params.toString()}`,
       );
-      const jobsData=Array.isArray(response.data)
-      ?response.data
-      :response.data.jobs || [];
-      setJobs(jobsData)
-    }catch(err){
-      console.error("Error fetching jobs : ",err)
+      const jobsData = Array.isArray(response.data)
+        ? response.data
+        : response.data.jobs || [];
+      setJobs(jobsData);
+    } catch (err) {
+      console.error("Error fetching jobs : ", err);
       setError("Failed to fetch jobs. Please try again later.");
       setJobs([]);
-    }finally{
-      setLoading(false)  
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,54 +128,57 @@ const JobSeekerDashboard = () => {
       className={`fixed inset-0 z-50 lg:hidden${showMobileFilters ? "" : "hidden"}`}
     >
       <div
-      className="fixed inset-0 bg-black"
-      onClick={()=>setShowMobileFilters(false)}
+        className="fixed inset-0 bg-black"
+        onClick={() => setShowMobileFilters(false)}
       />
       <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl">
         <div className=" flex items-center justify-between p-6 border-b border-gray-200">
           <h3 className="font-bold text-gray-900 text-lg">Filters</h3>
-          <button onClick={()=>setShowMobileFilters(false) }className="p-2 hover:bg-gray-100 rounded-xl transition-colors ">
-            <X className="w-5 h-5"/>
+          <button
+            onClick={() => setShowMobileFilters(false)}
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors "
+          >
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="p-6 overflow-y-auto h-full pb-20 ">
-          <FilterContent 
-          toggleSection={toggleSection}
-          clearAllfilters={clearAllfilters}
-          expandedSections={expandedSections}
-          filters={filters}
-          handleFilterChange={handleFilterChange}/>
+          <FilterContent
+            toggleSection={toggleSection}
+            clearAllfilters={clearAllfilters}
+            expandedSections={expandedSections}
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+          />
         </div>
       </div>
     </div>
   );
 
   const toggleSaveJob = async (jobId, isSaved) => {
-
-    try{
-      if(isSaved){
+    try {
+      if (isSaved) {
         await axiosInstance.delete(API_PATHS.JOBS.UNSAVE_JOB(jobId));
         toast.success("Job removed successfully!");
-      }else{
+      } else {
         await axiosInstance.post(API_PATHS.JOBS.DELETE_JOB.SAVE_JOB(jobId));
         toast.success("job saved successfully!");
       }
       fetchJobs();
-    }catch(err){
-      console.log("Error:",err);
-      toast.error("Somthing went wrong! Try again later")
+    } catch (err) {
+      console.log("Error:", err);
+      toast.error("Somthing went wrong! Try again later");
     }
   };
   const applytoJob = async (jobId) => {
-    try{
-      if(jobId){
+    try {
+      if (jobId) {
         await axiosInstance.post(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId));
-        toast.success("Applied to job successfully")
+        toast.success("Applied to job successfully");
       }
-      fetchJobs()
-    }catch(err){
-      console.log("Error:",err);
-      const errMsg=err?.response?.data?.message
+      fetchJobs();
+    } catch (err) {
+      console.log("Error:", err);
+      const errMsg = err?.response?.data?.message;
       toast.error(errMsg || "Something went wrong! try again later");
     }
   };
@@ -177,7 +186,21 @@ const JobSeekerDashboard = () => {
     return <LoadingSpinner />;
   }
 
-  return <div>JobSeekerDashboard</div>;
+  return;
+  <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <Navbar />
+    <div className="min-h-screen mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        {/* Search Header */}
+        <SearchHeader
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+        />
+      </div>
+    </div>
+    {/* Mobile Filter Overlay */}
+    <MobileFilterOverlay />
+  </div>;
 };
 
 export default JobSeekerDashboard;
